@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dean of PG School Dashboard - CUAB</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/adminLayout.css">
+  <link rel="stylesheet" href="../css/deanDashboard.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <div id="admin-sidebar" class="admin-sidebar"></div>
+    <div id="admin-main-content" class="admin-main-content">
+      <div class="admin-header">
+        <button class="admin-toggle-sidebar" id="toggle-sidebar-btn"><i class="fas fa-bars"></i></button>
+        <h1>Dean of PG School Dashboard</h1>
+        <div class="admin-user-info">
+          <span id="admin-user-email"></span>
+          <button class="admin-profile-btn"><i class="fas fa-user-circle"></i></button>
+        </div>
+      </div>
+      <div class="admin-content">
+        <div class="dean-dashboard">
+          <!-- Content will be loaded by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/admin-common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = JSON.parse(localStorage.getItem('adminUser'));
+      if (!user || user.role !== 'dean_pg_school') {
+        window.location.href = '/admin/admin-login.html';
+        return;
+      }
+
+      const mockData = {
+        totalPgProgrammes: 12,
+        totalPgStudents: 456,
+        totalPgFaculty: 34,
+        pendingApplications: 28,
+      };
+
+             const dashboardContainer = document.querySelector('.dean-dashboard');
+       dashboardContainer.innerHTML = `
+         <div class="dean-welcome">
+           <h2>Welcome back, Dean of Postgraduate School</h2>
+           <p>Postgraduate Academic Programs and Research Management</p>
+         </div>
+         <div class="dean-stats-grid">
+           <div class="dean-stat-card primary"><div class="stat-icon"><i class="fas fa-graduation-cap"></i></div><div class="stat-content"><h3>${mockData.totalPgProgrammes}</h3><p>PG Programmes</p></div></div>
+           <div class="dean-stat-card success"><div class="stat-icon"><i class="fas fa-user-graduate"></i></div><div class="stat-content"><h3>${mockData.totalPgStudents}</h3><p>PG Students</p></div></div>
+           <div class="dean-stat-card info"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-content"><h3>${mockData.totalPgFaculty}</h3><p>PG Faculty</p></div></div>
+           <div class="dean-stat-card warning"><div class="stat-icon"><i class="fas fa-file-alt"></i></div><div class="stat-content"><h3>${mockData.pendingApplications}</h3><p>Pending Applications</p></div></div>
+         </div>
+         
+         <div class="dean-overview-grid">
+           <div class="dean-card">
+             <div class="card-header">
+               <h3><i class="fas fa-clock"></i> Recent Activities</h3>
+             </div>
+             <div class="activities-list">
+               <div class="activity-item">
+                 <div class="activity-icon">
+                   <i class="fas fa-file-alt"></i>
+                 </div>
+                 <div class="activity-content">
+                   <p>New thesis submission received from Computer Science Department</p>
+                   <div class="activity-details">
+                     <span class="activity-time">2 hours ago</span>
+                   </div>
+                 </div>
+               </div>
+               <div class="activity-item">
+                 <div class="activity-icon">
+                   <i class="fas fa-user-graduate"></i>
+                 </div>
+                 <div class="activity-content">
+                   <p>PG student defense scheduled for next week</p>
+                   <div class="activity-details">
+                     <span class="activity-time">1 day ago</span>
+                   </div>
+                 </div>
+               </div>
+               <div class="activity-item">
+                 <div class="activity-icon">
+                   <i class="fas fa-chart-bar"></i>
+                 </div>
+                 <div class="activity-content">
+                   <p>Monthly PG programmes performance report generated</p>
+                   <div class="activity-details">
+                     <span class="activity-time">3 days ago</span>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+           
+           <div class="dean-card">
+             <div class="card-header">
+               <h3><i class="fas fa-calendar-alt"></i> Upcoming Deadlines</h3>
+             </div>
+             <div class="deadlines-list">
+               <div class="deadline-item">
+                 <div class="deadline-content">
+                   <h4>Thesis Defense Deadline</h4>
+                   <p>Final submission deadline for Spring semester</p>
+                 </div>
+                 <div class="deadline-priority high">High</div>
+               </div>
+               <div class="deadline-item">
+                 <div class="deadline-content">
+                   <h4>PG Programme Review</h4>
+                   <p>Annual review of postgraduate programmes</p>
+                 </div>
+                 <div class="deadline-priority medium">Medium</div>
+               </div>
+               <div class="deadline-item">
+                 <div class="deadline-content">
+                   <h4>Faculty Evaluation</h4>
+                   <p>PG faculty performance evaluation</p>
+                 </div>
+                 <div class="deadline-priority low">Low</div>
+               </div>
+             </div>
+           </div>
+         </div>
+         
+         <div class="dean-content-grid">
+           <div class="dean-card">
+             <div class="card-header">
+               <h3><i class="fas fa-graduation-cap"></i> PG Programmes Overview</h3>
+             </div>
+             <div class="departments-list">
+               <div class="department-card">
+                 <div class="dept-header">
+                   <h4>Computer Science</h4>
+                   <div class="performance-badge excellent">Excellent</div>
+                 </div>
+                 <div class="dept-stats">
+                   <div class="dept-stat">
+                     <span class="stat-label">Students</span>
+                     <span class="stat-value">156</span>
+                   </div>
+                   <div class="dept-stat">
+                     <span class="stat-label">Faculty</span>
+                     <span class="stat-value">12</span>
+                   </div>
+                   <div class="dept-stat">
+                     <span class="stat-label">Programmes</span>
+                     <span class="stat-value">4</span>
+                   </div>
+                 </div>
+               </div>
+               <div class="department-card">
+                 <div class="dept-header">
+                   <h4>Mathematics</h4>
+                   <div class="performance-badge good">Good</div>
+                 </div>
+                 <div class="dept-stats">
+                   <div class="dept-stat">
+                     <span class="stat-label">Students</span>
+                     <span class="stat-value">89</span>
+                   </div>
+                   <div class="dept-stat">
+                     <span class="stat-label">Faculty</span>
+                     <span class="stat-value">8</span>
+                   </div>
+                   <div class="dept-stat">
+                     <span class="stat-label">Programmes</span>
+                     <span class="stat-value">3</span>
+                   </div>
+                 </div>
+               </div>
+               <div class="department-card">
+                 <div class="dept-header">
+                   <h4>Physics</h4>
+                   <div class="performance-badge average">Average</div>
+                 </div>
+                 <div class="dept-stats">
+                   <div class="dept-stat">
+                     <span class="stat-label">Students</span>
+                     <span class="stat-value">67</span>
+                   </div>
+                   <div class="dept-stat">
+                     <span class="stat-label">Faculty</span>
+                     <span class="stat-value">6</span>
+                   </div>
+                   <div class="dept-stat">
+                     <span class="stat-label">Programmes</span>
+                     <span class="stat-value">2</span>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+           
+           <div class="dean-card">
+             <div class="card-header">
+               <h3><i class="fas fa-tasks"></i> Pending Approvals</h3>
+             </div>
+             <div class="approval-item">
+               <div class="approval-content">
+                 <h4>Thesis Defense Request</h4>
+                 <p>Dr. Sarah Wilson - Advanced ML Algorithms</p>
+               </div>
+               <div class="approval-info">
+                 <span class="status pending">Pending</span>
+               </div>
+               <div class="approval-actions">
+                 <button class="btn btn-success">Approve</button>
+                 <button class="btn btn-danger">Reject</button>
+               </div>
+             </div>
+             <div class="approval-item">
+               <div class="approval-content">
+                 <h4>New PG Programme</h4>
+                 <p>MSc in Data Science - Computer Science Dept</p>
+               </div>
+               <div class="approval-info">
+                 <span class="status pending">Pending</span>
+               </div>
+               <div class="approval-actions">
+                 <button class="btn btn-success">Approve</button>
+                 <button class="btn btn-danger">Reject</button>
+               </div>
+             </div>
+             <div class="approval-item">
+               <div class="approval-content">
+                 <h4>Faculty Appointment</h4>
+                 <p>Dr. Michael Brown - Assistant Professor</p>
+               </div>
+               <div class="approval-info">
+                 <span class="status approved">Approved</span>
+               </div>
+               <div class="approval-actions">
+                 <button class="btn btn-secondary">View Details</button>
+               </div>
+             </div>
+           </div>
+         </div>
+       `;
+
+      document.getElementById('admin-user-email').textContent = user.email;
+
+      // Toggle sidebar functionality
+      const toggleBtn = document.getElementById('toggle-sidebar-btn');
+      const sidebar = document.getElementById('admin-sidebar');
+      const mainContent = document.getElementById('admin-main-content');
+
+      toggleBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('collapsed');
+        mainContent.classList.toggle('expanded');
+      });
+    });
+  </script>
+</body>
+</html>

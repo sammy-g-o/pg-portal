@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - CUAB Postgraduate School</title>
+  <link rel="stylesheet" href="../css/adminLogin.css">
+</head>
+<body>
+  <div class="admin-login-container">
+    <img src="../img/cuab2.png" alt="" class="bg-float-img">
+    <div class="admin-login-card">
+      <div class="admin-login-header">
+        <img src="../img/logo.jpg" alt="University Logo" class="login-logo">
+        <h2>Admin Portal</h2>
+        <p>CUAB Postgraduate School</p>
+      </div>
+
+      <form class="admin-login-form">
+        <div class="error-message" style="display: none;"></div>
+        
+        <div class="form-group">
+          <label for="role">Select Role</label>
+          <select id="role" name="role" required>
+            <option value="">Choose your role...</option>
+            <option value="hod">Head of Department</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Staff ID</label>
+          <input type="text" id="email" name="email" placeholder="Enter your staff ID" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        </div>
+
+        <button type="submit" class="admin-login-btn">
+          Sign In
+        </button>
+      </form>
+
+      <div class="admin-login-footer">
+        <p>Forgot your password? <a href="#reset">Reset here</a></p>
+        <p><a href="/">← Back to Student Portal</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/admin-login.js"></script>
+</body>
+</html>
