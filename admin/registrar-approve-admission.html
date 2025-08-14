@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Approve Admission - Secretary PG School</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/adminLayout.css">
+    <link rel="stylesheet" href="../css/registrarDashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="registrar-page">
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <div class="admin-sidebar" id="admin-sidebar">
+            <!-- Sidebar content will be injected by admin-common.js -->
+        </div>
+        
+        <!-- Main Content -->
+        <div class="admin-main-content" id="admin-main-content">
+            <div class="admin-header">
+                <button class="admin-toggle-sidebar" id="admin-toggle-sidebar">
+                    
+                </button>
+                <h1><i class="fas fa-check-circle"></i> Approve Admission</h1>
+                <div class="admin-user-info">
+                    <span id="admin-user-email"></span>
+                    <button class="admin-profile-btn">
+                        <i class="fas fa-user-circle"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="admin-content">
+                <div class="page-header">
+                    <h1><i class="fas fa-check-circle"></i> Approve Admission</h1>
+                    <p>Review and approve student admissions for postgraduate programs</p>
+                </div>
+
+                <!-- Filters and Search -->
+                <div class="filters-section">
+                    <div class="search-box">
+                        <input type="text" id="search-input" placeholder="Search by student name, application ID, or department...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="filter-controls">
+                        <select id="department-filter">
+                            <option value="">All Departments</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="Physics">Physics</option>
+                            <option value="Chemistry">Chemistry</option>
+                            <option value="Biology">Biology</option>
+                        </select>
+                        <select id="program-filter">
+                            <option value="">All Programs</option>
+                            <option value="MSc">MSc</option>
+                            <option value="PhD">PhD</option>
+                            <option value="PG Diploma">PG Diploma</option>
+                        </select>
+                        <select id="status-filter">
+                            <option value="">All Statuses</option>
+                            <option value="Pending Approval">Pending Approval</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Rejected">Rejected</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Statistics Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="total-applications">0</h3>
+                            <p>Total Applications</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="pending-approval">0</h3>
+                            <p>Pending Approval</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="approved-count">0</h3>
+                            <p>Approved</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="rejected-count">0</h3>
+                            <p>Rejected</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Applications Table -->
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2>Admission Applications</h2>
+                        <div class="table-actions">
+                            <button class="btn btn-secondary" id="export-btn">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                            <button class="btn btn-primary" id="bulk-approve-btn">
+                                <i class="fas fa-check-double"></i> Bulk Approve
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-wrapper">
+                        <table class="applications-table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" id="select-all">
+                                    </th>
+                                    <th>Application ID</th>
+                                    <th>Student Name</th>
+                                    <th>Department</th>
+                                    <th>Program</th>
+                                    <th>Status</th>
+                                    <th>Submission Date</th>
+                                    <th>HOD Recommendation</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="applications-tbody">
+                                <!-- Table content will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="pagination">
+                        <button class="pagination-btn" id="prev-page">
+                            <i class="fas fa-chevron-left"></i> Previous
+                        </button>
+                        <span class="page-info">
+                            Page <span id="current-page">1</span> of <span id="total-pages">1</span>
+                        </span>
+                        <button class="pagination-btn" id="next-page">
+                            Next <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Details Modal -->
+    <div id="student-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Student Application Details</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body" id="student-modal-body">
+                <!-- Modal content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Approval Modal -->
+    <div id="approval-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Admission Approval</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="approval-form">
+                    <div class="form-group">
+                        <label>Application ID:</label>
+                        <input type="text" id="modal-application-id" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Student Name:</label>
+                        <input type="text" id="modal-student-name" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Decision:</label>
+                        <select id="approval-decision" required>
+                            <option value="">Select Decision</option>
+                            <option value="approved">Approve</option>
+                            <option value="rejected">Reject</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Comments:</label>
+                        <textarea id="approval-comments" rows="4" placeholder="Enter your comments..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancel-approval">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit Decision</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Temporary user setting for testing - remove this in production
+        if (!localStorage.getItem('adminUser')) {
+            localStorage.setItem('adminUser', JSON.stringify({
+                role: 'registrar',
+                name: 'Secretary PG School',
+                email: 'registrar@university.edu',
+                isAuthenticated: true
+            }));
+        }
+    </script>
+    <script src="js/admin-common.js"></script>
+    <script src="js/registrar-approve-admission.js"></script>
+</body>
+</html>

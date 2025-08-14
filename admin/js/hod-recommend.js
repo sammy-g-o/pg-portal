@@ -22,6 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const programmes = ['Computer Science', 'Data Science', 'Mathematics', 'Physics', 'Chemistry'];
     const recommendationTypes = ['Academic Excellence', 'Research Potential', 'Leadership', 'Special Consideration', 'Scholarship', 'Award'];
     const priorities = ['Low', 'Medium', 'High', 'Urgent'];
+    const recommendationStatus = ['Recommended', 'Not Recommended'];
+    const recommendationStatus = ['Recommended', 'Not Recommended'];
 
     function init() {
         loadStudents();
@@ -33,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
         students = [
             {
                 id: 1,
+                applicationId: 'APP/2024/001',
                 studentName: 'Jennifer Adams',
                 studentId: 'CS/2024/001',
                 programme: 'Computer Science',
@@ -51,6 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 id: 2,
+                applicationId: 'APP/2024/002',
                 studentName: 'Michael Thompson',
                 studentId: 'DS/2024/002',
                 programme: 'Data Science',
@@ -70,6 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 id: 3,
+                applicationId: 'APP/2024/003',
                 studentName: 'Sarah Mitchell',
                 studentId: 'MATH/2024/003',
                 programme: 'Mathematics',
@@ -89,6 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 id: 4,
+                applicationId: 'APP/2024/004',
                 studentName: 'David Rodriguez',
                 studentId: 'PHY/2024/004',
                 programme: 'Physics',
@@ -107,6 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 id: 5,
+                applicationId: 'APP/2024/005',
                 studentName: 'Amanda Foster',
                 studentId: 'CHEM/2024/005',
                 programme: 'Chemistry',
@@ -164,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         <div class="filter-group">
                             <label>Search:</label>
-                            <input type="text" id="search-input" placeholder="Search by name or ID...">
+                            <input type="text" id="search-input" placeholder="Search by name, ID, or Application ID...">
                         </div>
                         
                         <div class="filter-actions">
@@ -208,10 +215,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="student-info">
                         <h4>${student.studentName}</h4>
                         <p class="student-meta">
-                            <strong>${student.studentId}</strong> • ${student.programme}
+                            <strong>Application ID: ${student.applicationId}</strong> • ${student.studentId}
                         </p>
                         <p class="student-details">
-                            ${student.currentLevel} • CGPA: ${student.cgpa} • ${student.session}
+                            <strong>Program Applied For:</strong> ${student.programme} • 
+                            <strong>Current Session:</strong> ${student.session} • 
+                            <strong>Semester:</strong> ${student.semester}
+                        </p>
+                        <p class="student-level">
+                            ${student.currentLevel} • CGPA: ${student.cgpa}
                         </p>
                     </div>
                     <div class="cgpa-badge">
@@ -288,11 +300,40 @@ document.addEventListener('DOMContentLoaded', function() {
                         <button onclick="closeRecommendationModal()">&times;</button>
                     </div>
                     <form onsubmit="submitRecommendation(event)" class="modal-body">
+                        <div class="student-summary">
+                            <div class="summary-grid">
+                                <div class="summary-item">
+                                    <label>Application ID:</label>
+                                    <span>${selectedStudent.applicationId}</span>
+                                </div>
+                                <div class="summary-item">
+                                    <label>Current Session:</label>
+                                    <span>${selectedStudent.session}</span>
+                                </div>
+                                <div class="summary-item">
+                                    <label>Semester:</label>
+                                    <span>${selectedStudent.semester}</span>
+                                </div>
+                                <div class="summary-item">
+                                    <label>Program Applied For:</label>
+                                    <span>${selectedStudent.programme}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <div class="form-group">
                             <label>Recommendation Type:</label>
                             <select id="rec-type" required>
                                 <option value="">Select Type</option>
                                 ${recommendationTypes.map(type => `<option value="${type}">${type}</option>`).join('')}
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Recommendation Status:</label>
+                            <select id="rec-status" required>
+                                <option value="">Select Status</option>
+                                ${recommendationStatus.map(status => `<option value="${status}">${status}</option>`).join('')}
                             </select>
                         </div>
                         
@@ -383,7 +424,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (searchTerm) {
             filtered = filtered.filter(student => 
                 student.studentName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                student.studentId.toLowerCase().includes(searchTerm.toLowerCase())
+                student.studentId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                student.applicationId.toLowerCase().includes(searchTerm.toLowerCase())
             );
         }
 
@@ -396,6 +438,8 @@ document.addEventListener('DOMContentLoaded', function() {
             case 'Approved': return 'success';
             case 'Pending': return 'warning';
             case 'Rejected': return 'danger';
+            case 'Recommended': return 'success';
+            case 'Not Recommended': return 'danger';
             default: return 'primary';
         }
     }
@@ -445,6 +489,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const formData = {
             type: document.getElementById('rec-type').value,
+            status: document.getElementById('rec-status').value,
             priority: document.getElementById('rec-priority').value,
             reason: document.getElementById('rec-reason').value,
             details: document.getElementById('rec-details').value,
@@ -460,15 +505,19 @@ document.addEventListener('DOMContentLoaded', function() {
                         ...student.previousRecommendations,
                         {
                             type: formData.type,
+                            status: formData.status,
                             date: new Date().toISOString().split('T')[0],
-                            status: 'Pending'
+                            priority: formData.priority,
+                            reason: formData.reason,
+                            details: formData.details,
+                            notes: formData.additionalNotes
                         }
                     ]
                 }
                 : student
         );
 
-        alert(`Recommendation submitted for ${selectedStudent.studentName}`);
+        alert(`Recommendation submitted for ${selectedStudent.studentName} - Status: ${formData.status}`);
         closeRecommendationModal();
         applyFilters();
     };

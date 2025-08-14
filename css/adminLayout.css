@@ -2,6 +2,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
+/* Admin Container - Main wrapper for admin pages */
+.admin-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  font-family: 'Aleo', serif;
+}
+
 .admin-layout {
   display: flex;
   min-height: 100vh;
@@ -196,6 +204,24 @@
   padding: 8px;
   border-radius: 4px;
   transition: background-color 0.3s ease;
+  position: relative;
+  min-width: 32px;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-toggle-sidebar::before {
+  content: '';
+  width: 14px;
+  height: 2px;
+  background: #2E7D32;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 -3px 0 #2E7D32, 0 3px 0 #2E7D32;
 }
 
 .admin-toggle-sidebar:hover {
@@ -204,7 +230,7 @@
 
 .admin-header h1 {
   margin: 0;
-  color: #0a9842;
+  color: #333;
   font-size: 24px;
   font-weight: 600;
   font-family: 'Aleo', serif;
@@ -243,46 +269,353 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .admin-sidebar {
-    width: 70px;
+    width: 250px;
   }
   
   .admin-main-content {
-    margin-left: 70px;
+    margin-left: 250px;
   }
   
-  .admin-header {
-    padding: 15px 20px;
+  .admin-sidebar.collapsed {
+    width: 60px;
+  }
+  
+  .admin-main-content.expanded {
+    margin-left: 60px;
   }
   
   .admin-header h1 {
-    font-size: 20px;
+    font-size: 22px;
   }
   
   .admin-content {
-    padding: 20px 15px;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-sidebar {
+    transform: translateX(-100%);
+    width: 280px;
+    z-index: 1001;
+    transition: transform 0.3s ease;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+  }
+  
+  .admin-sidebar.mobile-open {
+    transform: translateX(0);
+  }
+  
+  .admin-main-content {
+    margin-left: 0;
+    width: 100%;
+  }
+  
+  .admin-header {
+    padding: 10px 12px;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .admin-header h1 {
+    font-size: 14px;
+    flex: 1;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #333;
+  }
+  
+  .admin-toggle-sidebar {
+    display: flex !important;
+    font-size: 18px;
+    padding: 8px;
+    border-radius: 6px;
+    background: #2E7D32;
+    border: none;
+    color: white;
+    cursor: pointer;
+    min-width: 36px;
+    min-height: 36px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background-color 0.3s ease;
+    position: relative;
+  }
+  
+  .admin-toggle-sidebar::before {
+    content: '';
+    width: 16px;
+    height: 2px;
+    background: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 -4px 0 white, 0 4px 0 white;
+  }
+  
+  .admin-toggle-sidebar:hover {
+    background: #1B5E20;
+  }
+  
+  .admin-user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
   }
   
   .admin-user-info span {
     display: none;
   }
+  
+  .admin-profile-btn {
+    font-size: 16px;
+    padding: 6px;
+    min-width: 32px;
+    min-height: 32px;
+  }
+  
+  .admin-content {
+    padding: 15px;
+  }
+  
+  /* Mobile overlay for sidebar */
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+  }
+  
+  .sidebar-overlay.active {
+    display: block;
+  }
+  
+  /* Debug styles - remove after testing */
+  .admin-sidebar.mobile-open {
+    box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+  }
+  
+  /* Ensure mobile sidebar is properly positioned and visible */
+  .admin-layout .admin-sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    height: 100vh !important;
+    z-index: 1001 !important;
+  }
+  
+  .admin-layout .admin-sidebar.mobile-open {
+    transform: translateX(0) !important;
+  }
 }
 
 @media (max-width: 480px) {
   .admin-sidebar {
-    width: 60px;
-  }
-  
-  .admin-main-content {
-    margin-left: 60px;
+    width: 100%;
+    max-width: 320px;
   }
   
   .admin-header {
-    padding: 12px 15px;
+    padding: 8px 10px;
+    gap: 8px;
+  }
+  
+  .admin-header h1 {
+    font-size: 13px;
+    margin: 0;
+  }
+  
+  .admin-toggle-sidebar {
+    font-size: 16px;
+    padding: 6px;
+    min-width: 32px;
+    min-height: 32px;
+  }
+  
+  .admin-profile-btn {
+    font-size: 14px;
+    padding: 5px;
+    min-width: 28px;
+    min-height: 28px;
   }
   
   .admin-content {
-    padding: 15px 10px;
+    padding: 10px;
   }
+  
+  .admin-sidebar-header {
+    padding: 15px;
+  }
+  
+  .admin-sidebar-header h3 {
+    font-size: 16px;
+  }
+  
+  .admin-menu-item {
+    padding: 12px 15px;
+    font-size: 14px;
+  }
+  
+  .admin-menu-item i {
+    font-size: 16px;
+    margin-right: 12px;
+  }
+}
+
+/* Tablet Landscape */
+@media (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {
+  .admin-sidebar {
+    width: 220px;
+  }
+  
+  .admin-main-content {
+    margin-left: 220px;
+  }
+  
+  .admin-content {
+    padding: 20px;
+  }
+  
+  .admin-header h1 {
+    font-size: 20px;
+  }
+}
+
+/* Large Mobile */
+@media (min-width: 481px) and (max-width: 768px) {
+  .admin-sidebar {
+    width: 300px;
+  }
+  
+  .admin-header {
+    padding: 12px 16px;
+  }
+  
+  .admin-header h1 {
+    font-size: 16px;
+  }
+  
+  .admin-content {
+    padding: 15px;
+  }
+}
+
+/* Grouped Sidebar Styles */
+.menu-group {
+  margin-bottom: 10px;
+}
+
+.menu-group-header {
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 0 25px 25px 0;
+  margin-right: 10px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-left: 3px solid transparent;
+}
+
+.menu-group-header:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-left-color: #FFD600;
+}
+
+.menu-group-header.expanded {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-left-color: #FFD600;
+}
+
+.menu-group-header i:first-child {
+  margin-right: 15px;
+  width: 20px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.group-title {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+}
+
+.group-toggle {
+  font-size: 12px;
+  transition: transform 0.3s ease;
+  transform: rotate(-90deg);
+}
+
+.menu-group-header.expanded .group-toggle {
+  transform: rotate(0deg);
+}
+
+.menu-group-items {
+  display: none;
+  padding-left: 20px;
+  border-left: 2px solid rgba(255, 255, 255, 0.1);
+  margin-left: 20px;
+}
+
+.menu-group-items .admin-menu-link {
+  margin-bottom: 2px;
+}
+
+.menu-group-items .admin-menu-item {
+  padding: 10px 15px;
+  font-size: 13px;
+  border-radius: 0 20px 20px 0;
+  margin-right: 15px;
+}
+
+.menu-group-items .admin-menu-item i {
+  font-size: 14px;
+  margin-right: 12px;
+}
+
+/* Collapsed sidebar for grouped items */
+.admin-sidebar.collapsed .menu-group-header {
+  justify-content: center;
+  padding: 12px 10px;
+  margin-right: 0;
+  border-radius: 0;
+}
+
+.admin-sidebar.collapsed .menu-group-header i:first-child {
+  margin-right: 0;
+  font-size: 18px;
+}
+
+.admin-sidebar.collapsed .group-title {
+  display: none;
+}
+
+.admin-sidebar.collapsed .group-toggle {
+  display: none;
+}
+
+.admin-sidebar.collapsed .menu-group-items {
+  display: none !important;
 }

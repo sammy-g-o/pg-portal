@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dean - All Students Management</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/adminLayout.css">
+    <link rel="stylesheet" href="../css/deanDashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="dean-page">
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <div class="admin-sidebar" id="admin-sidebar">
+            <!-- Sidebar content will be injected by admin-common.js -->
+        </div>
+        
+        <!-- Main Content -->
+        <div class="admin-main-content" id="admin-main-content">
+            <div class="admin-header">
+                <button class="admin-toggle-sidebar" id="admin-toggle-sidebar">
+                    
+                </button>
+                <h1><i class="fas fa-users"></i> All Students Management</h1>
+                <div class="admin-user-info">
+                    <span id="admin-user-email"></span>
+                    <button class="admin-profile-btn">
+                        <i class="fas fa-user-circle"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="admin-content">
+                <div class="page-header">
+                    <h1><i class="fas fa-users"></i> All Students Across Departments & Colleges</h1>
+                    <p>View and manage all students across all departments and colleges with advanced filtering capabilities</p>
+                </div>
+
+                <!-- Statistics Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="total-students">0</h3>
+                            <p>Total Students</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="total-departments">0</h3>
+                            <p>Departments</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="total-colleges">0</h3>
+                            <p>Colleges</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="active-students">0</h3>
+                            <p>Active Students</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Filters -->
+                <div class="filters-section">
+                    <div class="filters-header">
+                        <h3><i class="fas fa-filter"></i> Advanced Filters</h3>
+                        <button class="clear-filters-btn" id="clear-filters">
+                            <i class="fas fa-times"></i> Clear All Filters
+                        </button>
+                    </div>
+                    
+                    <div class="filters-grid">
+                        <div class="filter-group">
+                            <label for="college-filter">College:</label>
+                            <select id="college-filter" class="filter-select">
+                                <option value="">All Colleges</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="department-filter">Department:</label>
+                            <select id="department-filter" class="filter-select">
+                                <option value="">All Departments</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="programme-filter">Programme:</label>
+                            <select id="programme-filter" class="filter-select">
+                                <option value="">All Programmes</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="status-filter">Status:</label>
+                            <select id="status-filter" class="filter-select">
+                                <option value="">All Statuses</option>
+                                <option value="Enrolled">Enrolled</option>
+                                <option value="Admitted">Admitted</option>
+                                <option value="Graduated">Graduated</option>
+                                <option value="Withdrawn">Withdrawn</option>
+                                <option value="Suspended">Suspended</option>
+                                <option value="Transferred">Transferred</option>
+                                <option value="Deferred">Deferred</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="session-filter">Session:</label>
+                            <select id="session-filter" class="filter-select">
+                                <option value="">All Sessions</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="search-filter">Search:</label>
+                            <input type="text" id="search-filter" class="filter-input" placeholder="Search by name, ID, or email...">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Students Table -->
+                <div class="students-section">
+                    <div class="section-header">
+                        <h3>Students List</h3>
+                        <div class="table-controls">
+                            <div class="view-toggle">
+                                <button class="view-btn active" data-view="table">
+                                    Table
+                                </button>
+                                <button class="view-btn" data-view="cards">
+                                    <i class="fas fa-th"></i> Cards
+                                </button>
+                            </div>
+                            <div class="export-controls">
+                                <button class="export-btn" id="export-csv">
+                                    <i class="fas fa-download"></i> Export CSV
+                                </button>
+                                <button class="export-btn" id="export-pdf">
+                                    <i class="fas fa-file-pdf"></i> Export PDF
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Table View -->
+                    <div class="students-table-view" id="table-view">
+                        <div class="table-container">
+                            <table class="students-table">
+                                <thead>
+                                    <tr>
+                                        <th>Student ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Department</th>
+                                        <th>College</th>
+                                        <th>Programme</th>
+                                        <th>Status</th>
+                                        <th>Session</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="students-table-body">
+                                    <!-- Students will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Cards View -->
+                    <div class="students-cards-view hidden" id="cards-view">
+                        <div class="students-grid" id="students-grid">
+                            <!-- Student cards will be populated here -->
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination-container">
+                        <div class="pagination-info">
+                            <span id="pagination-info">Showing 0 of 0 students</span>
+                        </div>
+                        <div class="pagination-controls">
+                            <button class="pagination-btn" id="prev-page" disabled>
+                                <i class="fas fa-chevron-left"></i> Previous
+                            </button>
+                            <div class="page-numbers" id="page-numbers">
+                                <!-- Page numbers will be generated here -->
+                            </div>
+                            <button class="pagination-btn" id="next-page" disabled>
+                                Next <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Details Modal -->
+    <div class="modal" id="student-details-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-user"></i> Student Details</h2>
+                <button class="modal-close" id="close-student-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="student-details-content">
+                <!-- Student details will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Temporary user setting for testing - remove this in production
+        if (!localStorage.getItem('adminUser')) {
+            localStorage.setItem('adminUser', JSON.stringify({
+                role: 'dean',
+                name: 'Dean of Faculty',
+                email: 'dean@university.edu',
+                isAuthenticated: true
+            }));
+        }
+    </script>
+    <script src="js/admin-common.js"></script>
+    <script src="js/dean-all-students.js"></script>
+</body>
+</html>

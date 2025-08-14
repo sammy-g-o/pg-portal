@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Registrar Page</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/adminLayout.css">
+    <link rel="stylesheet" href="../css/registrarDashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div id="admin-sidebar"></div>
+        
+        <!-- Main Content -->
+        <div class="admin-main-content">
+            <div class="admin-header">
+                <h1>Test Registrar Page</h1>
+                <p>Testing the registrar sidebar functionality</p>
+            </div>
+            
+            <div style="padding: 20px; background: white; border-radius: 8px; margin: 20px;">
+                <h2>Registrar Dashboard Test</h2>
+                <p>If you can see the sidebar on the left with registrar menu items, the functionality is working correctly.</p>
+                <p>You should see menu items like:</p>
+                <ul>
+                    <li>Students</li>
+                    <li>Courses</li>
+                    <li>Transcripts</li>
+                    <li>Schedule</li>
+                    <li>View Recommended Applications</li>
+                    <li>Approve Admission</li>
+                    <li>Reports</li>
+                    <li>Graduation</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Set the user role for testing
+        localStorage.setItem('adminUser', JSON.stringify({
+            role: 'registrar',
+            name: 'Test Registrar',
+            email: 'registrar@test.com'
+        }));
+    </script>
+    <script src="js/admin-common.js"></script>
+</body>
+</html>

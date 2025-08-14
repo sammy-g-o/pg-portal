@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Sidebar Fix</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/adminLayout.css">
+    <link rel="stylesheet" href="../css/registrarDashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="registrar-page">
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <div class="admin-sidebar" id="admin-sidebar">
+            <!-- Sidebar content will be injected by admin-common.js -->
+        </div>
+        
+        <!-- Main Content -->
+        <div class="admin-main-content" id="admin-main-content">
+            <div class="admin-header">
+                <button class="admin-toggle-sidebar" id="admin-toggle-sidebar">
+                    
+                </button>
+                <h1>Test Sidebar</h1>
+                <div class="admin-user-info">
+                    <span id="admin-user-email"></span>
+                    <button class="admin-profile-btn">
+                        <i class="fas fa-user-circle"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="admin-content">
+                <h2>Sidebar Test</h2>
+                <p>If you can see the sidebar on the left with registrar menu items, the fix is working!</p>
+                <p>Try clicking the hamburger menu button to collapse/expand the sidebar.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Set test user for sidebar
+        localStorage.setItem('adminUser', JSON.stringify({
+            role: 'registrar',
+            name: 'Secretary PG School',
+            email: 'registrar@university.edu',
+            isAuthenticated: true
+        }));
+    </script>
+    <script src="js/admin-common.js"></script>
+    <script>
+        // Add sidebar toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const adminToggleSidebarBtn = document.getElementById('admin-toggle-sidebar');
+            const adminMainContent = document.getElementById('admin-main-content');
+            const adminUserEmailSpan = document.getElementById('admin-user-email');
+
+            // Set user email
+            const user = JSON.parse(localStorage.getItem('adminUser'));
+            if (user && adminUserEmailSpan) {
+                adminUserEmailSpan.textContent = user.email || 'Admin User';
+            }
+
+            // Sidebar toggle
+            if (adminToggleSidebarBtn) {
+                adminToggleSidebarBtn.addEventListener('click', () => {
+                    const adminSidebar = document.getElementById('admin-sidebar');
+                    adminSidebar.classList.toggle('collapsed');
+                    adminMainContent.classList.toggle('expanded');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
